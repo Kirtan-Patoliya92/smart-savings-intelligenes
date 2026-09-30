@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kirtan Bank — Banking Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="ambient ambient-a"></div>
+<div class="ambient ambient-b"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">K</div>
+    <div>
+      <strong>KIRTAN<span>BANK</span></strong>
+      <small>Digital Banking System</small>
+    </div>
+  </div>
+  <div id="headerActions"></div>
+</header>
+
+<main>
+  <section id="authView" class="auth-layout">
+    <div class="hero-copy">
+      <div class="badge">SECURE • SIMPLE • DIGITAL</div>
+      <h1>Your money.<br><span>Your control.</span></h1>
+      <p>A modern banking management system built by <b>Kirtan Patoliya</b> with Python, Flask, SQLite, HTML, CSS and JavaScript.</p>
+      <div class="hero-points">
+        <div>✓ Secure hashed PIN storage</div>
+        <div>✓ Real-time balance dashboard</div>
+        <div>✓ Transaction history & statement export</div>
+      </div>
+    </div>
+
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button class="tab active" onclick="showAuth('login')">Login</button>
+        <button class="tab" onclick="showAuth('register')">Create Account</button>
+      </div>
+
+      <div id="loginForm">
+        <h2>Welcome back</h2>
+        <p class="muted">Access your banking dashboard.</p>
+        <label>Account Number</label>
+        <input id="loginAccount" placeholder="e.g. KT8F2A91XZ">
+        <label>4-digit PIN</label>
+        <input id="loginPin" type="password" inputmode="numeric" maxlength="4" placeholder="••••">
+        <button class="wide primary" onclick="login()">Sign in →</button>
+      </div>
+
+      <div id="registerForm" class="hidden">
+        <h2>Open an account</h2>
+        <p class="muted">Create your Kirtan Bank account.</p>
+        <label>Full Name</label>
+        <input id="regName" placeholder="Kirtan Patoliya">
+        <label>Age</label>
+        <input id="regAge" type="number" min="18" placeholder="18">
+        <label>Email</label>
+        <input id="regEmail" type="email" placeholder="you@example.com">
+        <label>4-digit PIN</label>
+        <input id="regPin" type="password" inputmode="numeric" maxlength="4" placeholder="••••">
+        <button class="wide primary" onclick="register()">Create my account →</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="dashboard" class="dashboard hidden">
+    <div class="dashboard-head">
+      <div>
+        <p class="eyebrow">PERSONAL BANKING</p>
+        <h2>Good to see you, <span id="userName">User</span>.</h2>
+      </div>
+      <div class="head-buttons">
+        <button class="ghost" onclick="downloadStatement()">↓ Statement</button>
+        <button class="ghost danger" onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="balance-grid">
+      <div class="balance-card">
+        <div class="balance-top">
+          <span>AVAILABLE BALANCE</span>
+          <span class="card-chip">K</span>
+        </div>
+        <strong id="balance">₹0.00</strong>
+        <div class="account-number">Account <span id="accountNo"></span></div>
+      </div>
+      <div class="mini-stat">
+        <span>Total Transactions</span>
+        <strong id="transactionCount">0</strong>
+        <small>Your recent activity</small>
+      </div>
+      <div class="mini-stat">
+        <span>Account Status</span>
+        <strong class="active-status">● Active</strong>
+        <small>Account in good standing</small>
+      </div>
+    </div>
+
+    <div class="action-grid">
+      <button onclick="openMoney('deposit')" class="action-card">
+        <div class="action-icon deposit">↙</div><b>Deposit Money</b><small>Add money to your account</small>
+      </button>
+      <button onclick="openMoney('withdraw')" class="action-card">
+        <div class="action-icon withdraw">↗</div><b>Withdraw Money</b><small>Take money from your account</small>
+      </button>
+      <button onclick="openProfile()" class="action-card">
+        <div class="action-icon profile">◎</div><b>My Profile</b><small>Update your personal details</small>
+      </button>
+      <button onclick="confirmDelete()" class="action-card delete-card">
+        <div class="action-icon delete">×</div><b>Delete Account</b><small>Permanent account removal</small>
+      </button>
+    </div>
+
+    <section class="content-card">
+      <div class="section-title">
+        <div><h3>Recent transactions</h3><p>Your latest banking activity</p></div>
+        <button class="ghost" onclick="loadDashboard()">↻ Refresh</button>
+      </div>
+      <div id="transactions"></div>
+    </section>
+
+    <footer>© 2026 <b>Kirtan Patoliya</b> — Kirtan Bank Management System</footer>
+  </section>
+</main>
+
+<div id="modal" class="modal-bg hidden">
+  <div class="modal">
+    <button class="close" onclick="closeModal()">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<div id="toastBox"></div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
